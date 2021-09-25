@@ -44,9 +44,42 @@ fn run_prompt() -> std::io::Result<()> {
             break 
         }
 
-        print!("Input was: {}", input);
+        run(input);
     }
     Ok(())
 }
 
-fn run(_source: String) {}
+#[derive(Debug, PartialEq, Default)]
+struct Scanner;
+
+impl Scanner {
+    pub fn new() -> Self {
+        Scanner {}
+    }
+
+    pub fn scan_tokens(&self) -> Vec<Token> {
+        let mut v = Vec::new();
+        v.push(String::from("blah"));
+        v
+    }
+}
+
+type Token = String;
+
+fn run(_source: String) {
+    let scanner = Scanner::new();
+    let tokens = scanner.scan_tokens();
+
+    for token in tokens {
+        println!("{}", token);
+        error(1, "a big problem");
+    }
+}
+
+fn error(line: u32, message: &str) {
+    report(line, "", message);
+}
+
+fn report(line: u32, location: &str, message: &str) {
+    eprintln!("[line {}] Error{}: {}", line, location, message);
+}
